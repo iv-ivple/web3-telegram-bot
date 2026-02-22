@@ -5,6 +5,7 @@ Handles /start, /help, and general user interactions.
 import logging
 from telegram import Update
 from telegram.ext import ContextTypes
+from telegram.constants import ParseMode
 
 logger = logging.getLogger(__name__)
 
@@ -19,53 +20,93 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     welcome_message = f"""
 👋 Welcome {user.mention_html()}, 
 
-I'm your personal Web3 assistant! Here's what I can do:
+I'm your *Crypto Analytics Bot*! Here's what I can do:
 
-📊 <b>Available Commands:</b>
+📊 <b>Analytics & Charts:</b>
+/analytics &lt;token&gt; [days] - Token analytics with charts
+/wallet_report &lt;wallet&gt; [token] [days] - Wallet activity report
+
+💰 <b>Blockchain Basics:</b>
 /balance &lt;address&gt; - Check ETH balance
 /gas - Get current gas prices
 /price &lt;token&gt; - Get token price
-/track &lt;address&gt; - Monitor a wallet
-/help - Show this help message
 
-📰 <b>Getting Started:</b>
-Try: <code>/balance 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045</code>
+👀 <b>Wallet Tracking:</b>
+/track &lt;address&gt; [name] - Monitor a wallet
+/mywallets - List tracked wallets
+/help - Show full command guide
+
+📰 <b>Quick Start:</b>
+Try: <code>/analytics 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 7</code>
 
 💡 <b>Tips:</b>
 - All addresses must start with 0x
-- Commands are case-insensitive
-- Use /help anytime for assistance
+- Use /help for detailed examples
 """
     
     await update.message.reply_html(welcome_message)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handler for /help command."""
+    """Send a message when the command /help is issued."""
+    
     help_text = """
-📖 <b>Command Reference</b>
+📚 *Bot Commands Guide*
 
-🔹 /balance &lt;address&gt;
-Check ETH balance for any Ethereum address
-Example: <code>/balance 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045</code>
+━━━━━━━━━━━━━━━━━━━━━━━
+📊 *ANALYTICS & CHARTS*
+━━━━━━━━━━━━━━━━━━━━━━━
 
-🔹 /gas
-Get current network gas prices (slow/average/fast)
+`/analytics <token> [days]`
+Generate comprehensive token analytics with price & volume charts
+Example: `/analytics 0xC02a...Cc2 7`
 
-🔹 /price &lt;token&gt;
-Get current token price from DEXs
-Example: <code>/price ETH</code> or <code>/price USDC</code>
+`/wallet_report <wallet> [token] [days]`
+Generate wallet activity report with transfer charts
+Example: `/wallet_report 0x742d...f44e`
 
-🔹 /track &lt;address&gt;
-Monitor wallet for activity (coming soon!)
+━━━━━━━━━━━━━━━━━━━━━━━
+💰 *BLOCKCHAIN BASICS*
+━━━━━━━━━━━━━━━━━━━━━━━
 
-🔹 /help
-Show this help message
+`/balance <address>`
+Check ETH balance for any address
 
-❓ <b>Need Help?</b>
-Contact: @YourUsername
+`/price <token_symbol>`
+Get current token price
+Example: `/price ETH`
+
+`/gas`
+Check current Ethereum gas prices
+
+━━━━━━━━━━━━━━━━━━━━━━━
+👀 *WALLET TRACKING*
+━━━━━━━━━━━━━━━━━━━━━━━
+
+`/track <address> [name]`
+Start tracking a wallet
+
+`/untrack <address>`
+Stop tracking a wallet
+
+`/mywallets`
+List all your tracked wallets
+
+━━━━━━━━━━━━━━━━━━━━━━━
+💡 *TIPS*
+━━━━━━━━━━━━━━━━━━━━━━━
+
+- Use short addresses: `0x742d...f44e`
+- Default analysis period: 7 days
+- Charts auto-generate for analytics
+- Click buttons for more options
+
+━━━━━━━━━━━━━━━━━━━━━━━
 """
     
-    await update.message.reply_html(help_text)
+    await update.message.reply_text(
+        help_text,
+        parse_mode=ParseMode.MARKDOWN
+    )
 
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """

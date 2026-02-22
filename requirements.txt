@@ -1,4 +1,26 @@
-python-telegram-bot==20.7
-web3>=6.0.0
-python-dotenv>=1.0.0
-requests>=2.31.0
+# requirements.txt
+# Telegram bot framework
+python-telegram-bot==21.0.1
+
+# Web3 for blockchain interaction
+web3==6.15.0
+
+# HTTP requests
+requests==2.31.0
+
+# Data analysis and manipulation
+pandas==2.2.0
+numpy==1.26.0
+
+# Chart generation
+matplotlib==3.8.0
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Optional: Redis for advanced caching (not required)
+# redis==5.0.0
+
+# Optional: Database support (not required)
+# sqlalchemy==2.0.0
+# psycopg2-binary==2.9.0
