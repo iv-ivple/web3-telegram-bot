@@ -130,5 +130,3 @@ class Web3Helper:
         """Get latest block number."""
         return self.w3.eth.block_number
 
-# Global instance
-web3_helper = Web3Helper()
